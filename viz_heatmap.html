@@ -94,14 +94,6 @@
     .style("font-weight", "bold")
     .text("Symptom Prevalence Among Disease-Positive Patients");
 
-  svg.append("text")
-    .attr("x", width / 2)
-    .attr("y", -12)
-    .attr("text-anchor", "middle")
-    .style("font-size", "11px")
-    .style("fill", "#6B7280")
-    .text("Hover over a cell to see exact counts — darker = higher prevalence");
-
   // ── Tooltip
   const tooltip = d3.select("#tooltip");
 
