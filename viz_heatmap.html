@@ -40,10 +40,9 @@
 <div class="tooltip" id="tooltip"></div>
 
 <script>
-  // ── Data (computed from cleaned_lung_cancer_data.csv, disease-positive patients only)
   const data = [{"symptom": "Smoking", "age_group": "Under 35", "prevalence": 0.9189, "count": 204, "total": 222}, {"symptom": "Smoking", "age_group": "35-50", "prevalence": 0.9417, "count": 501, "total": 532}, {"symptom": "Smoking", "age_group": "50-65", "prevalence": 0.9319, "count": 547, "total": 587}, {"symptom": "Smoking", "age_group": "65+", "prevalence": 0.9195, "count": 640, "total": 696}, {"symptom": "Family History", "age_group": "Under 35", "prevalence": 0.3243, "count": 72, "total": 222}, {"symptom": "Family History", "age_group": "35-50", "prevalence": 0.3421, "count": 182, "total": 532}, {"symptom": "Family History", "age_group": "50-65", "prevalence": 0.3612, "count": 212, "total": 587}, {"symptom": "Family History", "age_group": "65+", "prevalence": 0.3578, "count": 249, "total": 696}, {"symptom": "Throat Discomfort", "age_group": "Under 35", "prevalence": 0.8604, "count": 191, "total": 222}, {"symptom": "Throat Discomfort", "age_group": "35-50", "prevalence": 0.8496, "count": 452, "total": 532}, {"symptom": "Throat Discomfort", "age_group": "50-65", "prevalence": 0.8416, "count": 494, "total": 587}, {"symptom": "Throat Discomfort", "age_group": "65+", "prevalence": 0.8693, "count": 605, "total": 696}, {"symptom": "Breathing Issue", "age_group": "Under 35", "prevalence": 0.9189, "count": 204, "total": 222}, {"symptom": "Breathing Issue", "age_group": "35-50", "prevalence": 0.9417, "count": 501, "total": 532}, {"symptom": "Breathing Issue", "age_group": "50-65", "prevalence": 0.9319, "count": 547, "total": 587}, {"symptom": "Breathing Issue", "age_group": "65+", "prevalence": 0.9253, "count": 644, "total": 696}, {"symptom": "Chest Tightness", "age_group": "Under 35", "prevalence": 0.6261, "count": 139, "total": 222}, {"symptom": "Chest Tightness", "age_group": "35-50", "prevalence": 0.6278, "count": 334, "total": 532}, {"symptom": "Chest Tightness", "age_group": "50-65", "prevalence": 0.6371, "count": 374, "total": 587}, {"symptom": "Chest Tightness", "age_group": "65+", "prevalence": 0.5862, "count": 408, "total": 696}, {"symptom": "Stress/Immune", "age_group": "Under 35", "prevalence": 0.3198, "count": 71, "total": 222}, {"symptom": "Stress/Immune", "age_group": "35-50", "prevalence": 0.2989, "count": 159, "total": 532}, {"symptom": "Stress/Immune", "age_group": "50-65", "prevalence": 0.3441, "count": 202, "total": 587}, {"symptom": "Stress/Immune", "age_group": "65+", "prevalence": 0.2529, "count": 176, "total": 696}, {"symptom": "Pollution Exposure", "age_group": "Under 35", "prevalence": 0.6081, "count": 135, "total": 222}, {"symptom": "Pollution Exposure", "age_group": "35-50", "prevalence": 0.5658, "count": 301, "total": 532}, {"symptom": "Pollution Exposure", "age_group": "50-65", "prevalence": 0.5758, "count": 338, "total": 587}, {"symptom": "Pollution Exposure", "age_group": "65+", "prevalence": 0.5661, "count": 394, "total": 696}, {"symptom": "Immune Weakness", "age_group": "Under 35", "prevalence": 0.455, "count": 101, "total": 222}, {"symptom": "Immune Weakness", "age_group": "35-50", "prevalence": 0.4624, "count": 246, "total": 532}, {"symptom": "Immune Weakness", "age_group": "50-65", "prevalence": 0.5196, "count": 305, "total": 587}, {"symptom": "Immune Weakness", "age_group": "65+", "prevalence": 0.4339, "count": 302, "total": 696}, {"symptom": "Alcohol Use", "age_group": "Under 35", "prevalence": 0.3468, "count": 77, "total": 222}, {"symptom": "Alcohol Use", "age_group": "35-50", "prevalence": 0.3722, "count": 198, "total": 532}, {"symptom": "Alcohol Use", "age_group": "50-65", "prevalence": 0.3646, "count": 214, "total": 587}, {"symptom": "Alcohol Use", "age_group": "65+", "prevalence": 0.3348, "count": 233, "total": 696}];
 
-  // ── Chart dimensions
+  // dimensions
   const margin = { top: 60, right: 40, bottom: 60, left: 160 };
   const width  = 520 - margin.left - margin.right;
   const height = 400 - margin.top  - margin.bottom;
@@ -55,11 +54,9 @@
     .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);
 
-  // ── Unique values
   const symptoms  = [...new Set(data.map(d => d.symptom))];
   const ageGroups = ["Under 35", "35-50", "50-65", "65+"];
 
-  // ── Scales
   const x = d3.scaleBand()
     .domain(ageGroups)
     .range([0, width])
@@ -70,12 +67,12 @@
     .range([0, height])
     .padding(0.05);
 
-  // Color scale: light blue → dark blue
+  // Color scale that goes from light blue to dark blue
   const colorScale = d3.scaleSequential()
     .domain([0, 1])
     .interpolator(d3.interpolateBlues);
 
-  // ── Axes
+  // create axes
   svg.append("g")
     .attr("transform", `translate(0, ${height})`)
     .call(d3.axisBottom(x).tickSize(0))
@@ -85,7 +82,7 @@
     .call(d3.axisLeft(y).tickSize(0))
     .select(".domain").remove();
 
-  // ── Title
+  // create title
   svg.append("text")
     .attr("x", width / 2)
     .attr("y", -30)
@@ -94,10 +91,9 @@
     .style("font-weight", "bold")
     .text("Symptom Prevalence Among Disease-Positive Patients");
 
-  // ── Tooltip
   const tooltip = d3.select("#tooltip");
 
-  // ── Draw cells
+  // creates the cells
   svg.selectAll(".cell")
     .data(data)
     .enter()
@@ -109,7 +105,7 @@
     .attr("height", y.bandwidth())
     .attr("rx", 4)
     .attr("fill", d => colorScale(d.prevalence))
-    // Tooltip on mouseover
+    // tooltip for mouse over
     .on("mouseover", function(event, d) {
       tooltip
         .style("opacity", 1)
@@ -127,7 +123,7 @@
       tooltip.style("opacity", 0);
     });
 
-  // ── Percent labels inside cells
+  // percentages
   svg.selectAll(".cell-label")
     .data(data)
     .enter()
@@ -143,7 +139,7 @@
     .style("fill", d => d.prevalence > 0.6 ? "#fff" : "#1e3a8a")
     .text(d => (d.prevalence * 100).toFixed(0) + "%");
 
-  // ── Color legend
+  // legend
   const legendWidth = 160;
   const legendHeight = 10;
   const legendX = width - legendWidth;
